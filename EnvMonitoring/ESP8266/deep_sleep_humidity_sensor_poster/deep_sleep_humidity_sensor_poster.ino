@@ -46,9 +46,7 @@ void setup() {
     url += "&sensorname=";
     url += sensorname;
    http.begin(host,port,url);
-   http.setUserAgent("GluffiS WebClient Sensor2");
-   //http.addHeader("Content-Type", "text/plain");  //Specify content-type header
-   //int httpCode = http.POST("Message from ESP8266");  
+   http.setUserAgent("SEtYourUserAgentHere");
    int httpCode = http.GET();
    String payload = http.getString();                  //Get the response payload
  
@@ -58,13 +56,8 @@ void setup() {
    http.end();  // close HTTP socket
    WiFi.disconnect(); // disconnect from wifi
    WiFi.mode(WIFI_OFF);
-   
-   // sleep for  while 
-   //delay(297000);  // adapt for 3-4 seconds time to connect to wifi
 
-  // system_deep_sleep_set_option(0);
-  // system_deep_sleep(10000000); // deep sleep for 10 seconds
-  ESP.deepSleep(300e6);
+   ESP.deepSleep(300e6); // sleep for 300 seconds
 }
 
 void loop() {
