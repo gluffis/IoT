@@ -28,8 +28,8 @@ foreach $sensordata (@sensors) {
     open(SENSOR,"$sensorpath/$sensor/temperature"); # open filehandle for sensor
     my $apa = <SENSOR>;                            # read temp into $apa variable
     close SENSOR;                                  # close filehandle
-    #update_rrd_data($rrdfile,$apa);                # update rrd file
-    #create_graf($rrdfile,$desc);                   # generate graph
+    update_rrd_data($rrdfile,$apa);                # update rrd file
+    create_graf($rrdfile,$desc);                   # generate graph
     if ($pushtomqtt == 1 ) { push_mqtt($desc,$apa); }                       # push temp data to MQTT server
 }
 
