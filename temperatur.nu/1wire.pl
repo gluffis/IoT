@@ -8,6 +8,7 @@
 use RRDs;
 use RRD::Simple;
 use Net::MQTT::Simple;
+use utf8;
 
 # Which sensors do we want to check
 # in format sensorname:rrd file name:description
