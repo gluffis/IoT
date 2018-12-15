@@ -3,10 +3,12 @@
 # Get and update rrd data for 1wire sensors
 # The assumption is that the rrd file exists
 # The code could probably be cleaned and optimzed
-#
+# Also push to MQTT if flag is set
 
 use RRDs;
 use RRD::Simple;
+use Net::MQTT::Simple;
+use utf8;
 
 # Which sensors do we want to check
 # in format sensorname:rrd file name:description
@@ -18,6 +20,8 @@ use RRD::Simple;
 $sensorpath = '/mnt/1wire';   # path to where sensors ar mounted
 $rrdpath = '/data/1wire/';    # path for RRD files
 $grafpath = '/data/1wire/';   # path for graph output
+$pushtomqtt = 1;              # set to 1 to push data to mqtt server
+$mqttserver = '192.168.1.35'; # MQTT server address
 
 # iterate over all sensors and get the temperature, update rrd file and create the graph
 foreach $sensordata (@sensors) {
@@ -27,6 +31,7 @@ foreach $sensordata (@sensors) {
     close SENSOR;                                  # close filehandle
     update_rrd_data($rrdfile,$apa);                # update rrd file
     create_graf($rrdfile,$desc);                   # generate graph
+    if ($pushtomqtt == 1 ) { push_mqtt($desc,$apa); }                       # push temp data to MQTT server
 }
 
 sub update_rrd_data {
@@ -61,3 +66,14 @@ sub create_graf {
              slope_mode => "" #slope_mode
          );
 }
+
+sub push_mqtt {
+    my $data = $_[1];
+    my $sensorname  = $_[0];
+    my $mqtt = Net::MQTT::Simple->new($mqttserver);
+        
+    $mqtt->publish("envdata/$sensorname" => $data);
+    
+}
+
+
