@@ -21,10 +21,7 @@ void setup() {
   // Connect D0 to RST to wake up
   pinMode(D0, WAKEUP_PULLUP);
 
-  // Open the Arduino IDE Serial Monitor to see what the code is doing
-  // Will be disabled in production version
-//  Serial.begin(115200);
-  dht.begin();
+  dht.begin();  // init the DHT sensor readings
 
   initWifi();  // connect to wifi
     
@@ -48,10 +45,6 @@ void setup() {
    http.begin(host,port,url);
    http.setUserAgent("SEtYourUserAgentHere");
    int httpCode = http.GET();
-   //String payload = http.getString();                  //Get the response payload
- 
- //  Serial.println(httpCode);   //Print HTTP return code
-  // Serial.println(payload);    //Print request response payload
    
    http.end();  // close HTTP socket
    WiFi.disconnect(); // disconnect from wifi
@@ -67,19 +60,11 @@ void loop() {
 void initWifi() {
   WiFi.mode(WIFI_STA);
   WiFi.begin(ssid);
-//  Serial.print("Connecting");
 
   // Wait for successful connection
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
- //   Serial.print(".");
   }
-//  Serial.println("");
-//  Serial.print("Connected to: ");
-//  Serial.println(ssid);
-//  Serial.print("IP address: ");
-//  Serial.println(WiFi.localIP());
-//  Serial.println("");
 }
 
 
