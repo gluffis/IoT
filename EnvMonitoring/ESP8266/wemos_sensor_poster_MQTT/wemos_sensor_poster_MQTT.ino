@@ -87,7 +87,7 @@ void initWifi() {
     delay(500);
     //Serial.print(".");
   }
-/*  
+/*  Use for debugging
     
   Serial.println("");
   Serial.print("Connected to: ");
